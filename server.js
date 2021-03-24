@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.urlencoded({extended: false}))
+
 app.get("/", (req, res) => {
     res.send(`
     <h1>What color is the sky on a clear day?</h1>
@@ -16,7 +18,11 @@ app.get("/about", (req, res) => {
 })
 
 app.post("/result", (req, res) => {
-    res.send("Thank you for submitting")
+    if(req.body.color.trim().toLowerCase() === "blue"){
+        res.send("Congratulations! Correct!")
+    } else {
+        res.send("Incorrect, please try again.")
+    }
 })
 
 app.get("/result", (req, res) => {
@@ -25,4 +31,4 @@ app.get("/result", (req, res) => {
 
 app.listen(8080)
 
-// work on this thing
+// continue here
