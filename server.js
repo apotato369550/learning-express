@@ -1,16 +1,34 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 
 app.use(express.urlencoded({extended: false}))
+// app.use(getWeather);
 
-app.get("/", (req, res) => {
-    res.send(`
-    <h1>What color is the sky on a clear day?</h1>
-    <form action="/result" method="POST">
-        <input type="text" name="color">
-        <button type="submit">Submit</button>
-    </form>
-    `);
+app.set("view engine", "ejs")
+// path aint specified?? why??
+// re-watch the vid to figure out why it aint working
+app.set("views", path.join(__dirname, "views"))
+
+function getWeather(req, res, next){
+    req.visitorWeather = true;
+    if(req.visitorWeather == false){
+        res.send("Please come back to us when it's not raining");
+    } else {
+        next();
+    }
+}
+
+app.get("/", getWeather, (req, res) => {
+    // it's having a hard time rendering the thing below
+    // i put app instead of res
+    res.render("home", {
+        isRaining: req.visitorWeather,
+        pets: [
+            {name: "Meowsalot", species: "cat"},
+            {name: "Barker", species: "dog"}
+        ]
+    })
 })
 
 app.get("/about", (req, res) => {
@@ -31,4 +49,4 @@ app.get("/result", (req, res) => {
 
 app.listen(8080)
 
-// continue here
+// continue copying video
