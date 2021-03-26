@@ -47,6 +47,13 @@ app.get("/result", (req, res) => {
     res.send("tf u doing here??")
 })
 
+app.get('/api/pets', (req, res) => {
+    res.json([
+        {name: "Meowsalot", species: "cat"},
+        {name: "Barker", species: "dog"}
+    ])
+})
+
 app.listen(8080)
 
 // continue copying video
